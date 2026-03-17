@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description"
-        content="Tímár Dávid – WordPress designer és fejlesztő Pécsről. Referenciák, tanulmányok, hobbyjaim és kapcsolat egy helyen.">
-    <title>Tímár Dávid | WordPress Designer & Fejlesztő</title>
+        content="Timár Dávid – webdesigner és WordPress fejlesztő Pécsről. Egyedi weboldal tervezés és fejlesztés KKV-knak.">
+    <title>Timár Dávid | WordPress Designer & Fejlesztő</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -23,20 +23,20 @@
         ======================================== */
         :root {
             /* Colors */
-            --color-bg: #0a0a0b;
-            --color-bg-elevated: #111113;
-            --color-bg-card: #161618;
-            --color-bg-hover: #1c1c1f;
-            --color-border: rgba(255, 255, 255, 0.08);
-            --color-border-light: rgba(255, 255, 255, 0.12);
+            --color-bg: #ffffff;
+            --color-bg-elevated: #f8fafc;
+            --color-bg-card: #f1f5f9;
+            --color-bg-hover: #e2e8f0;
+            --color-border: rgba(0, 0, 0, 0.08);
+            --color-border-light: rgba(0, 0, 0, 0.15);
 
-            --color-text: #ffffff;
-            --color-text-secondary: #a1a1aa;
-            --color-text-muted: #71717a;
+            --color-text: #0f172a;
+            --color-text-secondary: #475569;
+            --color-text-muted: #94a3b8;
 
-            --color-accent: #6366f1;
-            --color-accent-glow: rgba(99, 102, 241, 0.4);
-            --color-accent-soft: rgba(99, 102, 241, 0.15);
+            --color-accent: #7c3aed;
+            --color-accent-glow: rgba(124, 58, 237, 0.35);
+            --color-accent-soft: rgba(124, 58, 237, 0.12);
 
             --color-gold: #d4a853;
             --color-gold-glow: rgba(212, 168, 83, 0.4);
@@ -142,7 +142,7 @@
         }
 
         /* ========================================
-           Navigation - Liquid Spotlight Effect
+           Navigation - Transparent → Frosted Glass
         ======================================== */
         .navbar {
             position: fixed;
@@ -151,7 +151,13 @@
             right: 0;
             z-index: 1000;
             height: var(--nav-height);
-            background: rgba(10, 10, 11, 0.8);
+            background: transparent;
+            border-bottom: 1px solid transparent;
+            transition: background var(--transition-base), border-color var(--transition-base);
+        }
+
+        .navbar.scrolled {
+            background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--color-border);
@@ -171,10 +177,20 @@
             font-size: 1.5rem;
             font-weight: 800;
             letter-spacing: -0.03em;
+            color: #ffffff;
+            transition: color var(--transition-base);
+        }
+
+        .navbar.scrolled .nav-logo {
             color: var(--color-text);
         }
 
         .nav-logo span {
+            color: rgba(255, 255, 255, 0.7);
+            transition: color var(--transition-base);
+        }
+
+        .navbar.scrolled .nav-logo span {
             color: var(--color-accent);
         }
 
@@ -189,11 +205,15 @@
         .nav-spotlight {
             position: absolute;
             height: 40px;
-            background: rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.12);
             border-radius: 10px;
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             pointer-events: none;
             opacity: 0;
+        }
+
+        .navbar.scrolled .nav-spotlight {
+            background: rgba(124, 58, 237, 0.08);
         }
 
         .nav-menu:hover .nav-spotlight {
@@ -205,28 +225,50 @@
             padding: 10px 18px;
             font-size: 0.9rem;
             font-weight: 500;
-            color: var(--color-text-secondary);
+            color: rgba(255, 255, 255, 0.8);
             transition: color var(--transition-base);
             z-index: 1;
         }
 
         .nav-link:hover {
+            color: #ffffff;
+        }
+
+        .navbar.scrolled .nav-link {
+            color: var(--color-text-secondary);
+        }
+
+        .navbar.scrolled .nav-link:hover {
             color: var(--color-text);
         }
 
+        /* CTA - outline over hero, filled when scrolled */
         .nav-cta {
             margin-left: 16px;
-            padding: 12px 24px;
+            padding: 10px 22px;
             font-size: 0.9rem;
             font-weight: 600;
-            color: var(--color-text);
-            background: var(--color-accent);
+            color: #ffffff;
+            background: transparent;
+            border: 1.5px solid rgba(255, 255, 255, 0.6);
             border-radius: var(--radius-sm);
             transition: all var(--transition-base);
         }
 
         .nav-cta:hover {
-            background: #818cf8;
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #ffffff;
+        }
+
+        .navbar.scrolled .nav-cta {
+            background: var(--color-accent);
+            border-color: var(--color-accent);
+            color: #ffffff;
+        }
+
+        .navbar.scrolled .nav-cta:hover {
+            background: #6d28d9;
+            border-color: #6d28d9;
             transform: translateY(-2px);
             box-shadow: 0 8px 30px var(--color-accent-glow);
         }
@@ -235,7 +277,7 @@
         .nav-toggle {
             display: none;
             flex-direction: column;
-            gap: 6px;
+            gap: 5px;
             padding: 8px;
         }
 
@@ -243,38 +285,44 @@
             display: block;
             width: 24px;
             height: 2px;
-            background: var(--color-text);
+            background: #ffffff;
             transition: all var(--transition-base);
         }
 
+        .navbar.scrolled .nav-toggle span {
+            background: var(--color-text);
+        }
+
         .nav-toggle.active span:first-child {
-            transform: rotate(45deg) translate(4px, 4px);
+            transform: rotate(45deg) translate(5px, 5px);
         }
 
         .nav-toggle.active span:nth-child(2) {
             opacity: 0;
+            transform: translateX(-8px);
         }
 
         .nav-toggle.active span:last-child {
-            transform: rotate(-45deg) translate(4px, -4px);
+            transform: rotate(-45deg) translate(5px, -5px);
         }
 
-        /* Mobile Menu */
+        /* Mobile Menu - Full Screen Overlay */
         .mobile-menu {
             display: none;
             position: fixed;
-            top: var(--nav-height);
+            top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: var(--color-bg);
-            padding: 32px;
+            background: #ffffff;
+            padding: 100px 40px 48px;
             flex-direction: column;
-            gap: 16px;
-            z-index: 999;
+            justify-content: center;
+            gap: 0;
+            z-index: 998;
             opacity: 0;
-            transform: translateY(-20px);
-            transition: all var(--transition-base);
+            transform: translateY(-16px);
+            transition: opacity 0.35s ease, transform 0.35s ease;
         }
 
         .mobile-menu.active {
@@ -283,16 +331,22 @@
         }
 
         .mobile-link {
-            font-size: 1.5rem;
-            font-weight: 600;
+            font-size: 2rem;
+            font-weight: 700;
             color: var(--color-text-secondary);
-            padding: 16px 0;
+            padding: 18px 0;
             border-bottom: 1px solid var(--color-border);
-            transition: color var(--transition-base);
+            transition: color var(--transition-fast), padding-left var(--transition-fast);
+            letter-spacing: -0.02em;
+        }
+
+        .mobile-link:first-child {
+            border-top: 1px solid var(--color-border);
         }
 
         .mobile-link:hover {
-            color: var(--color-text);
+            color: var(--color-accent);
+            padding-left: 8px;
         }
 
         /* ========================================
@@ -304,6 +358,7 @@
             display: flex;
             align-items: center;
             overflow: hidden;
+            background: #0a0a12;
         }
 
         /* Background Slideshow */
@@ -361,8 +416,8 @@
             position: absolute;
             inset: 0;
             background-image:
-                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+                linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
             background-size: 80px 80px;
             z-index: 2;
         }
@@ -419,6 +474,7 @@
             line-height: 1.05;
             letter-spacing: -0.03em;
             margin-bottom: 24px;
+            color: #ffffff;
         }
 
         .hero-title-line {
@@ -429,12 +485,47 @@
         .hero-title-line span {
             display: inline-block;
             transform: translateY(100%);
-            animation: slideUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            color: transparent;
+            background: linear-gradient(
+                120deg,
+                rgba(255, 255, 255, 0.85) 0%,
+                rgba(255, 255, 255, 0.85) 35%,
+                rgba(255, 255, 255, 1) 46%,
+                rgba(255, 255, 255, 0.55) 50%,
+                rgba(255, 255, 255, 1) 54%,
+                rgba(255, 255, 255, 0.85) 65%,
+                rgba(255, 255, 255, 0.85) 100%
+            );
+            background-size: 250% 100%;
+            background-position: 200% center;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: slideUp 1s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+                       shineText 5s linear 1.5s infinite;
         }
 
         .hero-title-line:nth-child(2) span {
-            animation-delay: 0.15s;
-            color: var(--color-text-secondary);
+            background: linear-gradient(
+                120deg,
+                rgba(255, 255, 255, 0.42) 0%,
+                rgba(255, 255, 255, 0.42) 35%,
+                rgba(255, 255, 255, 0.85) 46%,
+                rgba(255, 255, 255, 0.28) 50%,
+                rgba(255, 255, 255, 0.85) 54%,
+                rgba(255, 255, 255, 0.42) 65%,
+                rgba(255, 255, 255, 0.42) 100%
+            );
+            background-size: 250% 100%;
+            background-position: 200% center;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: slideUp 1s cubic-bezier(0.4, 0, 0.2, 1) 0.15s forwards,
+                       shineText 5s linear 1.65s infinite;
+        }
+
+        @keyframes shineText {
+            0%   { background-position: 200% center; }
+            100% { background-position: -200% center; }
         }
 
         @keyframes slideUp {
@@ -457,7 +548,7 @@
 
         .hero-subtitle {
             font-size: 1.2rem;
-            color: var(--color-text-secondary);
+            color: rgba(255, 255, 255, 0.6);
             line-height: 1.7;
             margin-bottom: 40px;
             max-width: 500px;
@@ -476,7 +567,7 @@
             padding: 18px 36px;
             font-size: 1rem;
             font-weight: 600;
-            color: var(--color-text);
+            color: #ffffff;
             background: var(--color-accent);
             border-radius: var(--radius-sm);
             transition: all var(--transition-base);
@@ -503,16 +594,17 @@
             padding: 18px 36px;
             font-size: 1rem;
             font-weight: 600;
-            color: var(--color-text);
+            color: rgba(255, 255, 255, 0.8);
             background: transparent;
-            border: 1px solid var(--color-border-light);
+            border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: var(--radius-sm);
             transition: all var(--transition-base);
         }
 
         .btn-secondary:hover {
-            background: var(--color-bg-hover);
-            border-color: var(--color-text-muted);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.4);
+            color: #ffffff;
         }
 
         /* Hero Scroll Indicator */
@@ -570,10 +662,10 @@
         }
 
         .about-wrapper {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 80px;
             align-items: center;
-            text-align: center;
         }
 
         .section-tag {
@@ -592,13 +684,63 @@
             margin-bottom: 32px;
         }
 
+        /* About - Photo column */
+        .about-photo {
+            position: relative;
+        }
+
+        .about-photo img {
+            width: 100%;
+            border-radius: var(--radius-lg);
+            aspect-ratio: 3/4;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+        }
+
+        .about-photo-deco {
+            position: absolute;
+            top: -16px;
+            left: -16px;
+            right: 16px;
+            bottom: 16px;
+            border: 2px solid var(--color-accent);
+            border-radius: var(--radius-lg);
+            opacity: 0.25;
+            z-index: -1;
+        }
+
+        /* Pulsing glow blob behind photo */
+        .about-photo::before {
+            content: '';
+            position: absolute;
+            width: 140%;
+            height: 140%;
+            top: -20%;
+            left: -20%;
+            background: radial-gradient(circle at 50% 45%, rgba(124, 58, 237, 0.18) 0%, transparent 60%);
+            z-index: -2;
+            border-radius: 50%;
+            animation: aboutBlob 9s ease-in-out infinite;
+        }
+
+        @keyframes aboutBlob {
+            0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.6; }
+            50% { transform: scale(1.25) rotate(20deg); opacity: 1; }
+        }
+
+        /* About - Content column */
+        .about-content {
+            display: flex;
+            flex-direction: column;
+        }
+
         .about-title {
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
             font-weight: 800;
-            line-height: 1.1;
+            line-height: 1.15;
             letter-spacing: -0.03em;
-            max-width: 900px;
-            margin-bottom: 32px;
+            margin-bottom: 24px;
         }
 
         .about-title span {
@@ -606,32 +748,37 @@
         }
 
         .about-text {
-            font-size: 1.2rem;
+            font-size: 1.05rem;
             color: var(--color-text-secondary);
-            line-height: 1.8;
-            max-width: 700px;
-            margin-bottom: 48px;
+            line-height: 1.85;
+            margin-bottom: 16px;
         }
 
         .about-stats {
-            display: flex;
-            gap: 80px;
-            padding: 48px 80px;
-            background: var(--color-bg-card);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--color-border);
             border: 1px solid var(--color-border);
-            border-radius: var(--radius-lg);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            margin-top: 40px;
+            margin-bottom: 36px;
         }
 
         .stat-item {
             text-align: center;
+            padding: 24px 16px;
+            background: var(--color-bg-card);
         }
 
         .stat-number {
-            font-size: 3.5rem;
+            font-size: 1.6rem;
             font-weight: 800;
             color: var(--color-text);
             line-height: 1;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
+            letter-spacing: -0.02em;
         }
 
         .stat-number span {
@@ -639,8 +786,52 @@
         }
 
         .stat-label {
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        /* Skills */
+        .about-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 28px;
+        }
+
+        .about-skill {
+            padding: 6px 14px;
+            background: var(--color-bg-card);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-xl);
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--color-text-secondary);
+        }
+
+        /* Hobbies */
+        .about-hobbies {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .about-hobbies-label {
+            font-size: 0.78rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-right: 4px;
+        }
+
+        .about-hobby {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            padding: 4px 10px;
+            border-radius: var(--radius-xl);
+            background: var(--color-bg-elevated);
         }
 
         /* ========================================
@@ -652,7 +843,7 @@
         }
 
         .process-header {
-            text-align: center;
+            text-align: left;
             margin-bottom: 64px;
         }
 
@@ -660,122 +851,300 @@
             font-size: clamp(2rem, 4vw, 3rem);
             font-weight: 800;
             letter-spacing: -0.03em;
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
 
         .process-subtitle {
-            font-size: 1.1rem;
-            color: var(--color-text-secondary);
+            font-size: 1rem;
+            color: var(--color-text-muted);
         }
 
-        .process-steps {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
-            position: relative;
+        /* ── Process Duration Badge ── */
+        .process-duration {
+            margin-top: 72px;
         }
 
-        /* Connecting Line */
-        .process-steps::before {
-            content: '';
-            position: absolute;
-            top: 40px;
-            left: 12.5%;
-            right: 12.5%;
-            height: 2px;
-            background: linear-gradient(90deg,
-                    transparent,
-                    var(--color-border) 10%,
-                    var(--color-border) 90%,
-                    transparent);
-            z-index: 0;
+        .process-duration-inner {
+            max-width: 680px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 24px 32px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            background: var(--color-bg-elevated);
         }
 
-        .process-step {
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .process-step-number {
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 24px;
-            background: var(--color-bg-card);
-            border: 2px solid var(--color-border);
-            border-radius: 50%;
+        .process-duration-icon {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+            background: var(--color-accent-soft);
+            border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--color-text-muted);
-            transition: all var(--transition-base);
-        }
-
-        .process-step:hover .process-step-number {
-            border-color: var(--color-accent);
             color: var(--color-accent);
-            transform: scale(1.1);
-            box-shadow: 0 0 30px rgba(212, 168, 83, 0.2);
+            font-size: 1rem;
         }
 
-        .process-step-title {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--color-text);
-            margin-bottom: 12px;
+        .process-duration-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex-shrink: 0;
         }
 
-        .process-step-text {
-            font-size: 0.95rem;
-            color: var(--color-text-secondary);
+        .process-duration-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .process-duration-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--color-accent);
+            line-height: 1;
+        }
+
+        .process-duration-note {
+            font-size: 0.82rem;
+            color: var(--color-text-muted);
             line-height: 1.6;
-            max-width: 240px;
-            margin: 0 auto;
-        }
-
-        /* Responsive */
-        @media (max-width: 900px) {
-            .process-steps {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 40px;
-            }
-
-            .process-steps::before {
-                display: none;
-            }
+            padding-left: 20px;
+            border-left: 1px solid var(--color-border);
         }
 
         @media (max-width: 600px) {
-            .process-steps {
-                grid-template-columns: 1fr;
-                gap: 48px;
+            .process-duration-inner {
+                flex-wrap: wrap;
+                padding: 20px 22px;
             }
+            .process-duration-note {
+                padding-left: 0;
+                border-left: none;
+                border-top: 1px solid var(--color-border);
+                padding-top: 14px;
+                width: 100%;
+            }
+        }
 
-            .process-step {
+        /* ── Zigzag Timeline ── */
+        .process-timeline {
+            position: relative;
+            max-width: 880px;
+            margin: 0 auto;
+        }
+
+        /* Static grey spine */
+        .process-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 26px;
+            bottom: 26px;
+            width: 2px;
+            background: var(--color-border);
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+
+        /* Animated purple fill */
+        .process-spine-fill {
+            position: absolute;
+            left: 50%;
+            top: 26px;
+            width: 2px;
+            height: 0;
+            background: linear-gradient(to bottom, var(--color-accent), #a78bfa, #c4b5fd);
+            transform: translateX(-50%);
+            z-index: 1;
+            border-radius: 2px;
+            pointer-events: none;
+            transition: height 1.8s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .process-spine-fill.filled {
+            height: calc(100% - 52px);
+        }
+
+        /* Step row: 3-col grid */
+        .process-row {
+            display: grid;
+            grid-template-columns: 1fr 68px 1fr;
+            align-items: flex-start;
+            padding-bottom: 60px;
+        }
+
+        .process-row:last-child { padding-bottom: 0; }
+
+        /* Center dot */
+        .process-dot-col {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .process-dot {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--color-bg);
+            border: 2px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--color-text-muted);
+            letter-spacing: 0.06em;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            user-select: none;
+        }
+
+        .process-row:hover .process-dot {
+            border-color: var(--color-accent);
+            color: var(--color-accent);
+            background: var(--color-accent-soft);
+            box-shadow: 0 0 0 9px var(--color-accent-soft),
+                        0 0 32px var(--color-accent-glow);
+        }
+
+        /* Card */
+        .process-card {
+            background: var(--color-bg);
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 32px 36px;
+            margin-top: 4px;
+            position: relative;
+            transition: all var(--transition-base);
+        }
+
+        .process-card:hover {
+            border-color: var(--color-accent);
+            transform: translateY(-5px);
+            box-shadow: 0 24px 56px rgba(124, 58, 237, 0.1);
+        }
+
+        .process-card.card-left  { margin-right: 6px; }
+        .process-card.card-right { margin-left: 6px; }
+
+        /* Arrow tip: card-left points → center */
+        .process-card.card-left::after {
+            content: '';
+            position: absolute;
+            right: -11px;
+            top: 42px;
+            border: 11px solid transparent;
+            border-left: 11px solid var(--color-border);
+            transition: border-left-color var(--transition-base);
+        }
+        .process-card.card-left:hover::after {
+            border-left-color: var(--color-accent);
+        }
+
+        /* Arrow tip: card-right points ← center */
+        .process-card.card-right::before {
+            content: '';
+            position: absolute;
+            left: -11px;
+            top: 42px;
+            border: 11px solid transparent;
+            border-right: 11px solid var(--color-border);
+            transition: border-right-color var(--transition-base);
+        }
+        .process-card.card-right:hover::before {
+            border-right-color: var(--color-accent);
+        }
+
+        /* Large decorative number */
+        .process-card-num {
+            display: block;
+            font-size: 4.5rem;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.05em;
+            color: var(--color-accent);
+            opacity: 0.08;
+            margin-bottom: 16px;
+            transition: opacity var(--transition-base);
+            user-select: none;
+        }
+
+        .process-card:hover .process-card-num { opacity: 0.18; }
+
+        .process-card-icon {
+            width: 42px;
+            height: 42px;
+            background: var(--color-accent-soft);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-accent);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            transition: all var(--transition-base);
+        }
+
+        .process-card:hover .process-card-icon {
+            background: var(--color-accent);
+            color: #ffffff;
+        }
+
+        .process-card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--color-text);
+            margin-bottom: 10px;
+            letter-spacing: -0.01em;
+        }
+
+        .process-card-text {
+            font-size: 0.88rem;
+            color: var(--color-text-secondary);
+            line-height: 1.75;
+        }
+
+        /* Responsive: mobile — single left spine, all cards right */
+        @media (max-width: 768px) {
+            .process-timeline::before {
+                left: 26px;
+                transform: none;
+            }
+            .process-spine-fill {
+                left: 26px;
+                transform: none;
+            }
+            .process-row {
                 display: flex;
                 align-items: flex-start;
-                text-align: left;
-                gap: 20px;
+                padding-bottom: 36px;
             }
-
-            .process-step-number {
-                width: 60px;
-                height: 60px;
-                font-size: 1.25rem;
-                margin: 0;
+            .process-dot-col {
                 flex-shrink: 0;
+                width: 52px;
+                padding-top: 20px;
+                order: 1;
             }
-
-            .process-step-content {
+            .process-card {
                 flex: 1;
+                margin: 4px 0 0 16px !important;
+                order: 2;
+                padding: 24px 22px;
             }
-
-            .process-step-text {
-                max-width: none;
-                margin: 0;
-            }
+            .process-card.card-left::after,
+            .process-card.card-right::before { display: none; }
+            .process-spacer { display: none; }
         }
 
         /* ========================================
@@ -817,19 +1186,12 @@
             justify-content: center;
             padding: 80px 48px;
             overflow: hidden;
+            color: #ffffff;
         }
 
-        .service-card:nth-child(1) {
-            z-index: 1;
-        }
-
-        .service-card:nth-child(2) {
-            z-index: 2;
-        }
-
-        .service-card:nth-child(3) {
-            z-index: 3;
-        }
+        .service-card:nth-child(1) { z-index: 1; }
+        .service-card:nth-child(2) { z-index: 2; }
+        .service-card:nth-child(3) { z-index: 3; }
 
         /* Card Backgrounds */
         .service-card-bg {
@@ -856,8 +1218,8 @@
         /* Featured Card (Design Package) */
         .service-card.featured .service-card-bg::after {
             background: linear-gradient(135deg,
-                    rgba(99, 102, 241, 0.2) 0%,
-                    rgba(10, 10, 11, 0.9) 100%);
+                    rgba(99, 102, 241, 0.85) 0%,
+                    rgba(10, 10, 11, 0.92) 100%);
         }
 
         .service-card-content {
@@ -876,7 +1238,7 @@
             border-radius: var(--radius-xl);
             font-size: 0.8rem;
             font-weight: 700;
-            color: var(--color-text);
+            color: #ffffff;
             text-transform: uppercase;
             letter-spacing: 0.1em;
             margin-bottom: 24px;
@@ -899,7 +1261,7 @@
         .service-card-price span {
             font-size: 0.4em;
             font-weight: 500;
-            color: var(--color-text-secondary);
+            color: rgba(255, 255, 255, 0.5);
         }
 
         .service-card.featured .service-card-price {
@@ -911,7 +1273,7 @@
 
         .service-card-desc {
             font-size: 1.2rem;
-            color: var(--color-text-secondary);
+            color: rgba(255, 255, 255, 0.65);
             margin-bottom: 48px;
             max-width: 500px;
             margin-left: auto;
@@ -932,7 +1294,7 @@
             align-items: center;
             gap: 12px;
             font-size: 1rem;
-            color: var(--color-text-secondary);
+            color: rgba(255, 255, 255, 0.75);
         }
 
         .service-feature i {
@@ -946,8 +1308,8 @@
         }
 
         .service-feature.excluded {
-            color: var(--color-text-muted);
-            opacity: 0.7;
+            color: rgba(255, 255, 255, 0.35);
+            opacity: 1;
         }
 
         .service-feature.excluded i {
@@ -962,26 +1324,28 @@
             font-size: 1rem;
             font-weight: 600;
             color: var(--color-text);
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border-light);
+            background: rgba(255, 255, 255, 0.92);
+            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: var(--radius-sm);
             transition: all var(--transition-base);
         }
 
         .service-card-cta:hover {
-            background: var(--color-bg-hover);
-            border-color: var(--color-text-muted);
+            background: #ffffff;
+            border-color: #ffffff;
             transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
         }
 
         .service-card.featured .service-card-cta {
             background: var(--color-accent);
             border-color: var(--color-accent);
+            color: #ffffff;
         }
 
         .service-card.featured .service-card-cta:hover {
-            background: #818cf8;
-            border-color: #818cf8;
+            background: #6d28d9;
+            border-color: #6d28d9;
             box-shadow: 0 12px 40px var(--color-accent-glow);
         }
 
@@ -1452,8 +1816,12 @@
         }
 
         .references-header {
-            text-align: center;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
             margin-bottom: 48px;
+            flex-wrap: wrap;
+            gap: 24px;
         }
 
         .references-title {
@@ -1465,135 +1833,248 @@
         /* Filter Buttons */
         .references-filters {
             display: flex;
-            justify-content: center;
             flex-wrap: wrap;
-            gap: 12px;
-            margin-bottom: 48px;
+            gap: 8px;
+            margin-bottom: 40px;
         }
 
         .filter-btn {
-            padding: 12px 24px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            padding: 9px 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
             color: var(--color-text-secondary);
-            background: var(--color-bg-card);
+            background: transparent;
             border: 1px solid var(--color-border);
             border-radius: 100px;
             cursor: pointer;
-            transition: all var(--transition-base);
+            transition: all var(--transition-fast);
+            font-family: var(--font-family);
         }
 
         .filter-btn:hover {
             color: var(--color-text);
-            border-color: var(--color-border-hover);
+            border-color: var(--color-text-muted);
         }
 
         .filter-btn.active {
-            color: var(--color-bg);
+            color: #ffffff;
             background: var(--color-text);
             border-color: var(--color-text);
         }
 
+        /* Grid */
         .references-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
+            gap: 16px;
         }
 
-        .reference-card {
-            background: var(--color-bg-card);
-            border: 1px solid var(--color-border);
-            border-radius: var(--radius-xl);
+        /* ─── Chroma Grid ─── */
+        .chroma-grid {
+            position: relative;
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            --x: 50%;
+            --y: 50%;
+            --r: 320px;
+        }
+
+        .chroma-card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            border-radius: 20px;
             overflow: hidden;
-            transition: all var(--transition-base);
+            border: 1px solid #2a2a2a;
+            transition: border-color 0.3s ease;
+            background: var(--card-gradient, linear-gradient(145deg, #1a1a2e, #000));
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            --mouse-x: 50%;
+            --mouse-y: 50%;
+            --spotlight-color: rgba(255, 255, 255, 0.22);
         }
 
-        .reference-card:hover {
-            border-color: var(--color-border-hover);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        .chroma-card:hover {
+            border-color: var(--card-border, #7c3aed);
         }
 
-        .reference-card.hidden {
+        /* Per-card spotlight inner glow */
+        .chroma-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                circle at var(--mouse-x) var(--mouse-y),
+                var(--spotlight-color),
+                transparent 68%
+            );
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 2;
+        }
+
+        .chroma-card:hover::before {
+            opacity: 1;
+        }
+
+        .chroma-card.hidden {
             display: none;
         }
 
-        .reference-card-image {
+        /* Image */
+        .chroma-img-wrapper {
             position: relative;
-            aspect-ratio: 16/10;
-            overflow: hidden;
+            z-index: 1;
+            padding: 10px;
+            box-sizing: border-box;
+            aspect-ratio: 16/9;
+            flex-shrink: 0;
         }
 
-        .reference-card-image img {
+        .chroma-img-wrapper img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            filter: grayscale(100%);
-            transition: all var(--transition-slow);
+            object-position: top;
+            border-radius: 12px;
+            display: block;
         }
 
-        .reference-card:hover .reference-card-image img {
-            filter: grayscale(0%);
-            transform: scale(1.08);
+        /* Info footer */
+        .chroma-info {
+            position: relative;
+            z-index: 1;
+            padding: 10px 16px 14px;
+            color: #fff;
+            font-family: var(--font-family);
+            display: grid;
+            grid-template-columns: 1fr auto;
+            row-gap: 2px;
+            column-gap: 10px;
         }
 
-        .reference-card-category {
-            position: absolute;
-            top: 16px;
-            left: 16px;
-            padding: 6px 14px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--color-text);
-            background: rgba(0, 0, 0, 0.7);
-            backdrop-filter: blur(10px);
-            border-radius: 100px;
-        }
-
-        .reference-card-content {
-            padding: 24px;
-        }
-
-        .reference-card-title {
-            font-size: 1.1rem;
+        .chroma-info .name {
+            font-size: 0.92rem;
             font-weight: 700;
-            color: var(--color-text);
-            margin-bottom: 8px;
+            letter-spacing: -0.01em;
+            grid-column: 1;
+            grid-row: 1;
+            margin: 0;
         }
 
-        .reference-card-desc {
-            font-size: 0.9rem;
-            color: var(--color-text-secondary);
-            line-height: 1.5;
-            margin-bottom: 16px;
+        .chroma-info .handle {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.38);
+            grid-column: 2;
+            grid-row: 1 / 3;
+            align-self: center;
+            text-align: right;
         }
 
-        .reference-card-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
+        .chroma-info .role {
+            font-size: 0.76rem;
+            color: rgba(255, 255, 255, 0.5);
+            grid-column: 1;
+            grid-row: 2;
+            margin: 0;
         }
 
-        .reference-tag {
-            padding: 4px 10px;
-            font-size: 0.75rem;
-            color: var(--color-text-muted);
-            background: var(--color-bg);
-            border-radius: var(--radius-sm);
+        .chroma-info .location {
+            font-size: 0.7rem;
+            color: var(--card-border, #7c3aed);
+            grid-column: 1;
+            grid-row: 3;
+            margin-top: 4px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        /* ── Grayscale spotlight overlay ── */
+        .chroma-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 3;
+            backdrop-filter: grayscale(1) brightness(0.75);
+            -webkit-backdrop-filter: grayscale(1) brightness(0.75);
+            background: rgba(0, 0, 0, 0.001);
+            mask-image: radial-gradient(
+                circle var(--r) at var(--x) var(--y),
+                transparent 0%,
+                transparent 15%,
+                rgba(0, 0, 0, 0.1) 30%,
+                rgba(0, 0, 0, 0.22) 45%,
+                rgba(0, 0, 0, 0.35) 60%,
+                rgba(0, 0, 0, 0.5) 75%,
+                rgba(0, 0, 0, 0.68) 88%,
+                white 100%
+            );
+            -webkit-mask-image: radial-gradient(
+                circle var(--r) at var(--x) var(--y),
+                transparent 0%,
+                transparent 15%,
+                rgba(0, 0, 0, 0.1) 30%,
+                rgba(0, 0, 0, 0.22) 45%,
+                rgba(0, 0, 0, 0.35) 60%,
+                rgba(0, 0, 0, 0.5) 75%,
+                rgba(0, 0, 0, 0.68) 88%,
+                white 100%
+            );
+        }
+
+        /* ── Fade overlay (active when cursor is outside grid) ── */
+        .chroma-fade {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 4;
+            backdrop-filter: grayscale(1) brightness(0.75);
+            -webkit-backdrop-filter: grayscale(1) brightness(0.75);
+            background: rgba(0, 0, 0, 0.001);
+            mask-image: radial-gradient(
+                circle var(--r) at var(--x) var(--y),
+                white 0%,
+                white 15%,
+                rgba(255, 255, 255, 0.9) 30%,
+                rgba(255, 255, 255, 0.78) 45%,
+                rgba(255, 255, 255, 0.65) 60%,
+                rgba(255, 255, 255, 0.5) 75%,
+                rgba(255, 255, 255, 0.32) 88%,
+                transparent 100%
+            );
+            -webkit-mask-image: radial-gradient(
+                circle var(--r) at var(--x) var(--y),
+                white 0%,
+                white 15%,
+                rgba(255, 255, 255, 0.9) 30%,
+                rgba(255, 255, 255, 0.78) 45%,
+                rgba(255, 255, 255, 0.65) 60%,
+                rgba(255, 255, 255, 0.5) 75%,
+                rgba(255, 255, 255, 0.32) 88%,
+                transparent 100%
+            );
+            opacity: 1;
+            transition: opacity 0.25s ease;
         }
 
         /* Responsive */
         @media (max-width: 1024px) {
-            .references-grid {
+            .chroma-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
         @media (max-width: 600px) {
-            .references-grid {
+            .chroma-grid {
                 grid-template-columns: 1fr;
+                gap: 10px;
             }
 
             .references-filters {
@@ -2122,10 +2603,18 @@
                 align-items: flex-start;
             }
 
+            .about-wrapper {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+
+            .about-photo {
+                max-width: 320px;
+                margin: 0 auto;
+            }
+
             .about-stats {
-                flex-direction: column;
-                gap: 40px;
-                padding: 40px;
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .service-card-features {
@@ -2214,14 +2703,66 @@
         .hero-bg-glow {
             position: absolute;
             top: 50%;
-            left: 70%;
-            width: 800px;
-            height: 800px;
-            background: radial-gradient(circle, var(--color-accent-soft) 0%, transparent 60%);
+            left: 65%;
+            width: 900px;
+            height: 900px;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.25) 0%, transparent 65%);
             transform: translate(-50%, -50%);
             z-index: 1;
             pointer-events: none;
-            opacity: 0.6;
+        }
+
+        /* Animated floating orbs */
+        .hero-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(90px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-orb-1 {
+            width: 650px;
+            height: 650px;
+            background: radial-gradient(circle, rgba(124, 58, 237, 0.38) 0%, transparent 65%);
+            top: -180px;
+            right: -80px;
+            animation: heroOrbFloat1 16s ease-in-out infinite;
+        }
+
+        .hero-orb-2 {
+            width: 420px;
+            height: 420px;
+            background: radial-gradient(circle, rgba(79, 70, 229, 0.28) 0%, transparent 65%);
+            bottom: -60px;
+            left: 8%;
+            animation: heroOrbFloat2 20s ease-in-out infinite;
+        }
+
+        .hero-orb-3 {
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle, rgba(167, 139, 250, 0.22) 0%, transparent 65%);
+            top: 40%;
+            left: 40%;
+            animation: heroOrbFloat3 13s ease-in-out infinite;
+        }
+
+        @keyframes heroOrbFloat1 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(-70px, 50px) scale(1.08); }
+            66% { transform: translate(50px, -60px) scale(0.94); }
+        }
+
+        @keyframes heroOrbFloat2 {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(90px, -70px) scale(1.12); }
+        }
+
+        @keyframes heroOrbFloat3 {
+            0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
+            40% { transform: translate(-40px, 30px) scale(1.15); opacity: 1; }
+            80% { transform: translate(30px, -40px) scale(0.88); opacity: 0.5; }
         }
 
         .hero-content--corporate {
@@ -2249,10 +2790,16 @@
             min-height: 480px;
         }
 
+        @keyframes floatBrowser {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-14px); }
+        }
+
         .iso-wrapper {
             position: relative;
             width: 480px;
             height: 440px;
+            animation: floatBrowser 7s ease-in-out infinite;
         }
 
         /* Ambient glow under the scene */
@@ -2874,12 +3421,10 @@
 
             <div class="nav-menu" id="navMenu">
                 <div class="nav-spotlight" id="navSpotlight"></div>
-                <a href="#hero" class="nav-link">Kezdőoldal</a>
-                <a href="#about" class="nav-link">Rólunk</a>
+                <a href="#about" class="nav-link">Rólam</a>
                 <a href="#process" class="nav-link">Így dolgozom</a>
-                <a href="#services" class="nav-link">Szolgáltatásaink</a>
-                <a href="#references" class="nav-link">Referenciák</a>
-                <a href="#testimonials" class="nav-link">Vélemények</a>
+                <a href="#references" class="nav-link">Munkáim</a>
+                <a href="#services" class="nav-link">Árak</a>
                 <a href="#contact" class="nav-link">Kapcsolat</a>
             </div>
 
@@ -2897,43 +3442,38 @@
 
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
-        <a href="#hero" class="mobile-link">Kezdőoldal</a>
-        <a href="#about" class="mobile-link">Rólunk</a>
+        <a href="#about" class="mobile-link">Rólam</a>
         <a href="#process" class="mobile-link">Így dolgozom</a>
-        <a href="#services" class="mobile-link">Szolgáltatásaink</a>
-        <a href="#maintenance" class="mobile-link">Karbantartás</a>
-        <a href="#timeline" class="mobile-link">Szakmai háttér</a>
-        <a href="#references" class="mobile-link">Referenciák</a>
-        <a href="#testimonials" class="mobile-link">Vélemények</a>
+        <a href="#references" class="mobile-link">Munkáim</a>
+        <a href="#services" class="mobile-link">Árak</a>
         <a href="#contact" class="mobile-link">Kapcsolat</a>
-        <a href="#contact" class="mobile-link" style="color:var(--color-accent);">
-            <i class="fas fa-envelope"></i> Ajánlatkérés
-        </a>
+        <a href="#contact" class="mobile-link" style="color:var(--color-accent); border-bottom: none; margin-top: 8px;">Ajánlatkérés →</a>
     </div>
 
     <main>
         <!-- Hero Section -->
         <section id="hero" class="hero">
             <div class="hero-bg-glow"></div>
+            <div class="hero-orb hero-orb-1"></div>
+            <div class="hero-orb hero-orb-2"></div>
+            <div class="hero-orb hero-orb-3"></div>
             <div class="hero-grid-pattern"></div>
 
             <div class="container">
                 <div class="hero-content hero-content--corporate">
                     <div class="hero-text">
                         <div class="hero-badge">
-                            <i class="fas fa-bolt"></i>
-                            <span>Prémium Weboldal Készítés</span>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Pécs · UX/UI Design & WordPress</span>
                         </div>
 
                         <h1 class="hero-title">
-                            <span class="hero-title-line"><span>Modern, gyors</span></span>
-                            <span class="hero-title-line"><span>weboldalak cégeknek</span></span>
+                            <span class="hero-title-line"><span>A te vállalkozásod,</span></span>
+                            <span class="hero-title-line"><span>a te arculatod.</span></span>
                         </h1>
 
                         <p class="hero-subtitle">
-                            Tűnj ki a versenytársaid közül egy konverzióra optimalizált, professzionális weboldallal.
-                            Arculattervezés, WordPress fejlesztés és karbantartás — hogy neked csak az üzlettel kelljen
-                            foglalkoznod.
+                            Az online jelenléted egyedi lesz — pont olyan, mint a vállalkozásod.
                         </p>
 
                         <div class="hero-cta-group">
@@ -2941,8 +3481,8 @@
                                 <i class="fas fa-envelope"></i>
                                 <span>Kérj Ajánlatot</span>
                             </a>
-                            <a href="#services" class="btn-secondary">
-                                <span>Szolgáltatásaink</span>
+                            <a href="#references" class="btn-secondary">
+                                <span>Munkáim</span>
                                 <i class="fas fa-arrow-right"></i>
                             </a>
                         </div>
@@ -2962,50 +3502,7 @@
                                     <div class="iso-url">tdigital.hu/projekt</div>
                                 </div>
                                 <div class="iso-site">
-                                    <div class="iso-site-nav">
-                                        <div class="iso-logo-bar"></div>
-                                        <div class="iso-nav-links">
-                                            <div class="iso-nav-link"></div>
-                                            <div class="iso-nav-link"></div>
-                                            <div class="iso-nav-link"></div>
-                                        </div>
-                                    </div>
-                                    <div class="iso-hero-area">
-                                        <div class="iso-hero-h1"></div>
-                                        <div class="iso-hero-h2"></div>
-                                        <div class="iso-hero-btn"></div>
-                                    </div>
-                                    <div class="iso-cards-grid">
-                                        <div class="iso-card">
-                                            <div class="iso-card-icon ci-blue"></div>
-                                            <div class="iso-card-line"></div>
-                                            <div class="iso-card-line" style="width:70%"></div>
-                                        </div>
-                                        <div class="iso-card">
-                                            <div class="iso-card-icon ci-green"></div>
-                                            <div class="iso-card-line"></div>
-                                            <div class="iso-card-line" style="width:80%"></div>
-                                        </div>
-                                        <div class="iso-card">
-                                            <div class="iso-card-icon ci-gold"></div>
-                                            <div class="iso-card-line"></div>
-                                            <div class="iso-card-line" style="width:60%"></div>
-                                        </div>
-                                    </div>
-                                    <div class="iso-stats-bar">
-                                        <div class="iso-stat">
-                                            <span class="iso-stat-val">98/100</span>
-                                            <span class="iso-stat-lbl">PageSpeed</span>
-                                        </div>
-                                        <div class="iso-stat">
-                                            <span class="iso-stat-val">4.2%</span>
-                                            <span class="iso-stat-lbl">Konverzió</span>
-                                        </div>
-                                        <div class="iso-stat">
-                                            <span class="iso-stat-val">1.2s</span>
-                                            <span class="iso-stat-lbl">Betöltés</span>
-                                        </div>
-                                    </div>
+                                    <img src="photos/hero-resz.png" alt="Referencia projekt – Hímesházi Óvoda" style="width:100%;height:100%;object-fit:cover;object-position:top;display:block;">
                                 </div>
                             </div>
 
@@ -3071,28 +3568,232 @@
         <section id="about" class="about">
             <div class="container">
                 <div class="about-wrapper">
-                    <span class="section-tag reveal">
-                        <i class="fas fa-user"></i>
-                        Rólam
-                    </span>
 
-                    <h2 class="about-title reveal reveal-delay-1">
-                        Szia, <span>Tímár Dávid</span> vagyok —
-                        WordPress designer és fejlesztő
-                    </h2>
+                    <!-- Fotó -->
+                    <div class="about-photo reveal">
+                        <img src="photos/rolam.jpeg" alt="Timár Dávid – webdesigner Pécs">
+                        <div class="about-photo-deco"></div>
+                    </div>
 
-                    <p class="about-text reveal reveal-delay-2">
-                        Pécsről indultam, és mára WordPress-ben és Figmában tervezem és fejlesztem
-                        az ügyfeleim weboldalait. Hiszem, hogy egy jól megtervezett weboldal nem csak szép,
-                        hanem valódi stratégiai eszköz is — ezért minden projektnél a felhasználói élmény
-                        és a funkcionalitás harmóniájára törekszem.
-                    </p>
+                    <!-- Tartalom -->
+                    <div class="about-content">
+                        <span class="section-tag reveal">
+                            <i class="fas fa-user"></i>
+                            Rólam
+                        </span>
 
-                    <p class="about-text reveal reveal-delay-3" style="margin-top: 16px;">
-                        Eddig dolgoztam rendezvényszervező platformokkal, alapítványokkal, helyi vállalkozásokkal
-                        és egyéni vállalkozókkal egyaránt. Minden megbízásnál — legyen szó teljesen új oldalról
-                        vagy egy meglévő módosításáról — ugyanolyan odafigyeléssel állok a munkához.
-                    </p>
+                        <h2 class="about-title reveal reveal-delay-1">
+                            Szia, <span>Timár Dávid</span> vagyok —<br>webdesigner Pécsről.
+                        </h2>
+
+                        <p class="about-text reveal reveal-delay-2">
+                            2023-ban kezdtem el weboldalakkal foglalkozni, és hamar kiderült: ez nem csak munka.
+                            Szabadidőmben is ezen dolgoztam, mindig volt egy új ötlet, egy új projekt.
+                            Így lett a szakmámból a hobbymmá.
+                        </p>
+
+                        <p class="about-text reveal reveal-delay-3">
+                            UX/UI tervezői képzéssel és szoftverfejlesztői háttérrel érkeztem ebbe a munkába.
+                            A Quesoft Kft.-nél töltött egy évem alatt junior fejlesztőként napi szintű
+                            ügyfélkommunikációval dolgoztam — így pontosan tudom, hogyan néz ki egy gördülékeny,
+                            meglepetésmentes együttműködés.
+                        </p>
+
+                        <!-- Statisztikák -->
+                        <div class="about-stats reveal reveal-delay-4">
+                            <div class="stat-item">
+                                <div class="stat-number" data-count="8" data-suffix="+">0<span>+</span></div>
+                                <div class="stat-label">Befejezett projekt</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">2023</div>
+                                <div class="stat-label">Aktív azóta</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" data-count="1" data-suffix="év">0<span>év</span></div>
+                                <div class="stat-label">Quesoft Kft.</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number" style="font-size:1.1rem;">Pécs</div>
+                                <div class="stat-label">Székhely</div>
+                            </div>
+                        </div>
+
+                        <!-- Eszközök -->
+                        <div class="about-skills reveal reveal-delay-4">
+                            <span class="about-skill">Figma</span>
+                            <span class="about-skill">WordPress</span>
+                            <span class="about-skill">UX/UI Design</span>
+                            <span class="about-skill">HTML & CSS</span>
+                            <span class="about-skill">JavaScript</span>
+                        </div>
+
+                        <!-- Hobbik -->
+                        <div class="about-hobbies reveal reveal-delay-4">
+                            <span class="about-hobbies-label">Szabadidő —</span>
+                            <span class="about-hobby">Foci</span>
+                            <span class="about-hobby">Játékok</span>
+                            <span class="about-hobby">Társas</span>
+                            <span class="about-hobby">Társaság</span>
+                            <span class="about-hobby">Kuckózás</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Munkáim Section -->
+        <section id="references" class="references">
+            <div class="container">
+                <div class="references-header">
+                    <div>
+                        <span class="section-tag reveal">
+                            <i class="fas fa-folder-open"></i>
+                            Munkáim
+                        </span>
+                        <h2 class="references-title reveal reveal-delay-1">Korábbi projektek</h2>
+                    </div>
+                </div>
+
+                <div class="references-filters reveal reveal-delay-2">
+                    <button class="filter-btn active" data-filter="all">Összes</button>
+                    <button class="filter-btn" data-filter="uzleti">Üzleti</button>
+                    <button class="filter-btn" data-filter="alapitvany">Alapítvány</button>
+                    <button class="filter-btn" data-filter="portfolio">Portfólió</button>
+                </div>
+
+                <div class="chroma-grid" id="chroma-grid">
+
+                    <article class="chroma-card" data-category="uzleti"
+                        style="--card-border:#4F46E5;--card-gradient:linear-gradient(145deg,#4F46E5,#05050f)"
+                        onclick="window.open('https://onevent.hu','_blank','noopener,noreferrer')">
+                        <div class="chroma-img-wrapper">
+                            <img src="photos/onevent.png" alt="OnEvent.hu" loading="lazy">
+                        </div>
+                        <footer class="chroma-info">
+                            <h3 class="name">OnEvent.hu</h3>
+                            <span class="handle">onevent.hu</span>
+                            <p class="role">Rendezvényszervező platform</p>
+                            <span class="location">Üzleti</span>
+                        </footer>
+                    </article>
+
+                    <article class="chroma-card" data-category="uzleti"
+                        style="--card-border:#10B981;--card-gradient:linear-gradient(210deg,#10B981,#05050f)"
+                        onclick="window.open('https://selfierent.hu','_blank','noopener,noreferrer')">
+                        <div class="chroma-img-wrapper">
+                            <img src="photos/selfierent.png" alt="SelfieRent" loading="lazy">
+                        </div>
+                        <footer class="chroma-info">
+                            <h3 class="name">SelfieRent</h3>
+                            <span class="handle">selfierent.hu</span>
+                            <p class="role">Fotobox bérlés rendezvényekre</p>
+                            <span class="location">Üzleti</span>
+                        </footer>
+                    </article>
+
+                    <article class="chroma-card" data-category="alapitvany"
+                        style="--card-border:#F59E0B;--card-gradient:linear-gradient(165deg,#F59E0B,#05050f)"
+                        onclick="window.open('https://borsohazpecs.hu','_blank','noopener,noreferrer')">
+                        <div class="chroma-img-wrapper">
+                            <img src="photos/borsohazpecs.png" alt="Borsóház Pécs" loading="lazy">
+                        </div>
+                        <footer class="chroma-info">
+                            <h3 class="name">Borsóház Pécs</h3>
+                            <span class="handle">borsohazpecs.hu</span>
+                            <p class="role">Alapítvány bemutatkozó oldal</p>
+                            <span class="location">Alapítvány</span>
+                        </footer>
+                    </article>
+
+                    <article class="chroma-card" data-category="uzleti"
+                        style="--card-border:#EF4444;--card-gradient:linear-gradient(195deg,#EF4444,#05050f)"
+                        onclick="window.open('https://merchantlog.hu','_blank','noopener,noreferrer')">
+                        <div class="chroma-img-wrapper">
+                            <img src="photos/merchantlog.png" alt="Merchantlog.hu" loading="lazy">
+                        </div>
+                        <footer class="chroma-info">
+                            <h3 class="name">Merchantlog.hu</h3>
+                            <span class="handle">merchantlog.hu</span>
+                            <p class="role">Logisztikai szolgáltató cég</p>
+                            <span class="location">Üzleti</span>
+                        </footer>
+                    </article>
+
+                    <article class="chroma-card" data-category="uzleti"
+                        style="--card-border:#8B5CF6;--card-gradient:linear-gradient(225deg,#8B5CF6,#05050f)"
+                        onclick="window.open('https://minico.hu','_blank','noopener,noreferrer')">
+                        <div class="chroma-img-wrapper">
+                            <img src="photos/minico.png" alt="Mi-Ni & Co" loading="lazy">
+                        </div>
+                        <footer class="chroma-info">
+                            <h3 class="name">Mi-Ni & Co</h3>
+                            <span class="handle">minico.hu</span>
+                            <p class="role">Ipari és kivitelező cég</p>
+                            <span class="location">Üzleti</span>
+                        </footer>
+                    </article>
+
+                    <article class="chroma-card" data-category="alapitvany"
+                        style="--card-border:#06B6D4;--card-gradient:linear-gradient(135deg,#06B6D4,#05050f)"
+                        onclick="window.open('https://fogdakezemalapitvany.hu','_blank','noopener,noreferrer')">
+                        <div class="chroma-img-wrapper">
+                            <img src="photos/fogdakezem.png" alt="Fogd a Kezem!" loading="lazy">
+                        </div>
+                        <footer class="chroma-info">
+                            <h3 class="name">Fogd a Kezem!</h3>
+                            <span class="handle">fogdakezemalapitvany.hu</span>
+                            <p class="role">Jótékonysági alapítvány</p>
+                            <span class="location">Alapítvány</span>
+                        </footer>
+                    </article>
+
+                    <article class="chroma-card" data-category="alapitvany"
+                        style="--card-border:#EC4899;--card-gradient:linear-gradient(155deg,#EC4899,#05050f)"
+                        onclick="window.open('https://himeshazaovoda.hu','_blank','noopener,noreferrer')">
+                        <div class="chroma-img-wrapper">
+                            <img src="photos/himeshazaovoda.png" alt="Hímesházi Óvoda" loading="lazy">
+                        </div>
+                        <footer class="chroma-info">
+                            <h3 class="name">Hímesházi Óvoda</h3>
+                            <span class="handle">himeshazaovoda.hu</span>
+                            <p class="role">Óvoda és bölcsőde weboldala</p>
+                            <span class="location">Alapítvány</span>
+                        </footer>
+                    </article>
+
+                    <article class="chroma-card" data-category="portfolio"
+                        style="--card-border:#7C3AED;--card-gradient:linear-gradient(175deg,#7C3AED,#05050f)"
+                        onclick="window.open('https://erdelyialexandra.hu','_blank','noopener,noreferrer')">
+                        <div class="chroma-img-wrapper">
+                            <img src="photos/erdelyialexandra.png" alt="Erdélyi Alexandra" loading="lazy">
+                        </div>
+                        <footer class="chroma-info">
+                            <h3 class="name">Erdélyi Alexandra</h3>
+                            <span class="handle">erdelyialexandra.hu</span>
+                            <p class="role">Személyes portfólió oldal</p>
+                            <span class="location">Portfólió</span>
+                        </footer>
+                    </article>
+
+                    <article class="chroma-card" data-category="portfolio"
+                        style="--card-border:#F97316;--card-gradient:linear-gradient(215deg,#F97316,#05050f)"
+                        onclick="window.open('https://school-box.eu','_blank','noopener,noreferrer')">
+                        <div class="chroma-img-wrapper">
+                            <img src="photos/schoolbox.png" alt="School-box.eu" loading="lazy">
+                        </div>
+                        <footer class="chroma-info">
+                            <h3 class="name">School-box.eu</h3>
+                            <span class="handle">school-box.eu</span>
+                            <p class="role">Oktatási platform</p>
+                            <span class="location">Oktatás</span>
+                        </footer>
+                    </article>
+
+                    <div class="chroma-overlay"></div>
+                    <div class="chroma-fade" id="chroma-fade"></div>
+
                 </div>
             </div>
         </section>
@@ -3101,51 +3802,93 @@
         <section id="process" class="process">
             <div class="container">
                 <div class="process-header">
-                    <span class="section-tag reveal">
-                        <i class="fas fa-route"></i>
-                        Így dolgozom
-                    </span>
-                    <h2 class="process-title reveal reveal-delay-1">Hogyan készül a weboldalad?</h2>
-                    <p class="process-subtitle reveal reveal-delay-2">Átlátható folyamat, meglepetések nélkül.</p>
-                </div>
-
-                <div class="process-steps">
-                    <div class="process-step reveal">
-                        <div class="process-step-number">01</div>
-                        <div class="process-step-content">
-                            <h3 class="process-step-title">Stratégia</h3>
-                            <p class="process-step-text">Átbeszéljük az igényeidet és a céljaidat. Megtervezzük a
-                                struktúrát.</p>
-                        </div>
-                    </div>
-
-                    <div class="process-step reveal reveal-delay-1">
-                        <div class="process-step-number">02</div>
-                        <div class="process-step-content">
-                            <h3 class="process-step-title">Design (Figma)</h3>
-                            <p class="process-step-text">Látványtervet készítek. Ezt addig csiszoljuk, amíg 100%-ig
-                                elégedett nem vagy.</p>
-                        </div>
-                    </div>
-
-                    <div class="process-step reveal reveal-delay-2">
-                        <div class="process-step-number">03</div>
-                        <div class="process-step-content">
-                            <h3 class="process-step-title">Fejlesztés</h3>
-                            <p class="process-step-text">A jóváhagyott terv alapján megépítem az oldalt, beállítom a
-                                funkciókat és a SEO-t.</p>
-                        </div>
-                    </div>
-
-                    <div class="process-step reveal reveal-delay-3">
-                        <div class="process-step-number">04</div>
-                        <div class="process-step-content">
-                            <h3 class="process-step-title">Átadás</h3>
-                            <p class="process-step-text">Élesítjük az oldalt, és megmutatom, hogyan tudod kezelni a
-                                tartalmat.</p>
-                        </div>
+                    <div>
+                        <span class="section-tag reveal">
+                            <i class="fas fa-route"></i>
+                            Így dolgozom
+                        </span>
+                        <h2 class="process-title reveal reveal-delay-1">Hogyan készül a weboldalad?</h2>
+                        <p class="process-subtitle reveal reveal-delay-2">Átlátható folyamat, meglepetések nélkül.</p>
                     </div>
                 </div>
+
+                <div class="process-timeline" id="process-timeline">
+                    <div class="process-spine-fill" id="process-spine"></div>
+
+                    <!-- 01 — bal oldal -->
+                    <div class="process-row reveal">
+                        <div class="process-card card-left">
+                            <span class="process-card-num">01</span>
+                            <div class="process-card-icon"><i class="fas fa-comments"></i></div>
+                            <h3 class="process-card-title">Megismerés</h3>
+                            <p class="process-card-text">Egy ingyenes egyeztetéssel kezdünk. Kérdezek a vállalkozásodról, a céljaidról, és arról, kit szeretnél elérni. Semmi kötelezettség — csak megismerem a helyzetedet.</p>
+                        </div>
+                        <div class="process-dot-col">
+                            <div class="process-dot">01</div>
+                        </div>
+                        <div class="process-spacer"></div>
+                    </div>
+
+                    <!-- 02 — jobb oldal -->
+                    <div class="process-row reveal reveal-delay-1">
+                        <div class="process-spacer"></div>
+                        <div class="process-dot-col">
+                            <div class="process-dot">02</div>
+                        </div>
+                        <div class="process-card card-right">
+                            <span class="process-card-num">02</span>
+                            <div class="process-card-icon"><i class="fas fa-pen-ruler"></i></div>
+                            <h3 class="process-card-title">Tervezés</h3>
+                            <p class="process-card-text">Elkészítem az oldal teljes látványtervét, amit jóváhagyás előtt megmutatok neked. Látod, pontosan milyen lesz — mielőtt bármi épülne. Addig módosítjuk, amíg tökéletes.</p>
+                        </div>
+                    </div>
+
+                    <!-- 03 — bal oldal -->
+                    <div class="process-row reveal reveal-delay-2">
+                        <div class="process-card card-left">
+                            <span class="process-card-num">03</span>
+                            <div class="process-card-icon"><i class="fas fa-code"></i></div>
+                            <h3 class="process-card-title">Fejlesztés</h3>
+                            <p class="process-card-text">A jóváhagyott terv alapján megépítem az oldalt. Mobilon, tableten és asztali gépen egyaránt hibátlanul működik — gyorsan tölt, és keresőre optimalizált.</p>
+                        </div>
+                        <div class="process-dot-col">
+                            <div class="process-dot">03</div>
+                        </div>
+                        <div class="process-spacer"></div>
+                    </div>
+
+                    <!-- 04 — jobb oldal -->
+                    <div class="process-row reveal reveal-delay-3">
+                        <div class="process-spacer"></div>
+                        <div class="process-dot-col">
+                            <div class="process-dot">04</div>
+                        </div>
+                        <div class="process-card card-right">
+                            <span class="process-card-num">04</span>
+                            <div class="process-card-icon"><i class="fas fa-rocket"></i></div>
+                            <h3 class="process-card-title">Átadás</h3>
+                            <p class="process-card-text">Együtt élesítjük az oldalt, és megmutatom hogyan kezeld a tartalmakat.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Időtartam jelző -->
+                <div class="process-duration reveal">
+                    <div class="process-duration-inner">
+                        <div class="process-duration-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="process-duration-text">
+                            <span class="process-duration-label">Átlagos projekt időtartama</span>
+                            <span class="process-duration-value">3–6 hét</span>
+                        </div>
+                        <div class="process-duration-note">
+                            A pontos határidő a csomag és a projekt összetettségétől függ — ezt az ajánlatban egyértelműen rögzítjük.
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </section>
 
@@ -3165,58 +3908,42 @@
             </div>
 
             <div class="services-cards">
-                <!-- Alap Csomag -->
+
+                <!-- Kezdő Csomag -->
                 <div class="service-card">
                     <div class="service-card-bg">
-                        <img src="https://images.unsplash.com/photo-1517134191118-9d595e4c8c2b?w=1920&q=80"
-                            alt="Alap csomag">
+                        <img src="photos/onevent.png" alt="Kezdő csomag">
                     </div>
                     <div class="service-card-content">
-                        <h3 class="service-card-name">Alap Csomag</h3>
+                        <h3 class="service-card-name">Kezdő Csomag</h3>
                         <div class="service-card-price">149.000 <span>Ft</span></div>
                         <p class="service-card-desc">
-                            Azoknak ajánljuk, akik be akarnak mutatkozni az online térben.
+                            Egyedi megjelenés, sablon nélkül — az első lépés az online jelenléthez.
                         </p>
                         <div class="service-card-features">
                             <div class="service-feature included">
                                 <i class="fas fa-check"></i>
-                                <span>One-pager vagy max 1-3 aloldal</span>
+                                <span>Egyedi design</span>
                             </div>
                             <div class="service-feature included">
                                 <i class="fas fa-check"></i>
-                                <span>Sablon alapú fejlesztés</span>
+                                <span>One-pager vagy max 3 aloldal</span>
                             </div>
                             <div class="service-feature included">
                                 <i class="fas fa-check"></i>
-                                <span>Reszponzív nézetek felépítése</span>
+                                <span>Reszponzív mobilos nézet</span>
                             </div>
                             <div class="service-feature included">
                                 <i class="fas fa-check"></i>
-                                <span>Google Térkép beépítése (Kérésre)</span>
+                                <span>SEO alapbeállítások</span>
                             </div>
                             <div class="service-feature included">
                                 <i class="fas fa-check"></i>
-                                <span>SEO</span>
+                                <span>Kapcsolati űrlap</span>
                             </div>
                             <div class="service-feature included">
                                 <i class="fas fa-check"></i>
-                                <span>Űrlap</span>
-                            </div>
-                            <div class="service-feature excluded">
-                                <i class="fas fa-times"></i>
-                                <span>Blog / Hírek oldal</span>
-                            </div>
-                            <div class="service-feature excluded">
-                                <i class="fas fa-times"></i>
-                                <span>Statisztika megjelenítés</span>
-                            </div>
-                            <div class="service-feature excluded">
-                                <i class="fas fa-times"></i>
-                                <span>Időpontfoglalás</span>
-                            </div>
-                            <div class="service-feature excluded">
-                                <i class="fas fa-times"></i>
-                                <span>Többnyelvűség</span>
+                                <span>~2–3 hét átfutás</span>
                             </div>
                         </div>
                         <a href="#contact" class="service-card-cta">
@@ -3226,35 +3953,33 @@
                     </div>
                 </div>
 
-                <!-- Design Csomag (Featured) -->
+                <!-- Haladó Csomag (Featured) -->
                 <div class="service-card featured">
                     <div class="service-card-bg">
-                        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=1920&q=80"
-                            alt="Design csomag">
+                        <img src="photos/selfierent.png" alt="Haladó csomag">
                     </div>
                     <div class="service-card-content">
                         <span class="service-card-badge">
                             <i class="fas fa-star"></i>
                             Legnépszerűbb
                         </span>
-                        <h3 class="service-card-name">Design Csomag</h3>
-                        <div class="service-card-price">349.000 <span>Ft</span></div>
+                        <h3 class="service-card-name">Haladó Csomag</h3>
+                        <div class="service-card-price">229.000 <span>Ft</span></div>
                         <p class="service-card-desc">
-                            Egyedi megjelenés és bővített funkciók. A legtöbb vállalkozásnak
-                            ez a tökéletes választás.
+                            Teljes körű egyedi weboldal, bővített funkciókkal — a legtöbb vállalkozásnak ez a tökéletes választás.
                         </p>
                         <div class="service-card-features">
                             <div class="service-feature included">
                                 <i class="fas fa-check"></i>
-                                <span>Minden, ami az Alap csomagban</span>
+                                <span>Minden a Kezdő csomagból</span>
                             </div>
                             <div class="service-feature included">
                                 <i class="fas fa-check"></i>
-                                <span>Egyedi design (Sablon helyett)</span>
+                                <span>Max 7 aloldal</span>
                             </div>
                             <div class="service-feature included">
                                 <i class="fas fa-check"></i>
-                                <span>Több oldalas honlap (max 7 aloldal)</span>
+                                <span>Blog / Hírek oldal</span>
                             </div>
                             <div class="service-feature included">
                                 <i class="fas fa-check"></i>
@@ -3262,7 +3987,15 @@
                             </div>
                             <div class="service-feature included">
                                 <i class="fas fa-check"></i>
-                                <span>Többnyelvűség</span>
+                                <span>Google Térkép</span>
+                            </div>
+                            <div class="service-feature included">
+                                <i class="fas fa-check"></i>
+                                <span>Többnyelvűség (opció)</span>
+                            </div>
+                            <div class="service-feature included">
+                                <i class="fas fa-check"></i>
+                                <span>~3–4 hét átfutás</span>
                             </div>
                         </div>
                         <a href="#contact" class="service-card-cta">
@@ -3272,23 +4005,21 @@
                     </div>
                 </div>
 
-                <!-- Prémium Csomag -->
+                <!-- Egyedi Csomag -->
                 <div class="service-card premium">
                     <div class="service-card-bg">
-                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1920&q=80"
-                            alt="Prémium csomag">
+                        <img src="photos/borsohazpecs.png" alt="Egyedi csomag">
                     </div>
                     <div class="service-card-content">
-                        <h3 class="service-card-name">Prémium Csomag</h3>
-                        <div class="service-card-price">590.000+ <span>Ft</span></div>
+                        <h3 class="service-card-name">Egyedi Csomag</h3>
+                        <div class="service-card-price">399.000+ <span>Ft</span></div>
                         <p class="service-card-desc">
-                            Teljes körű automatizáció és tartalommarketing.
-                            A legigényesebb projektek számára.
+                            Komplex funkciók, egyedi fejlesztések — ha a projekt több mint egy átlagos weboldal.
                         </p>
                         <div class="service-card-features">
                             <div class="service-feature included">
                                 <i class="fas fa-check"></i>
-                                <span>Minden, ami a Design csomagban</span>
+                                <span>Minden a Haladó csomagból</span>
                             </div>
                             <div class="service-feature included">
                                 <i class="fas fa-check"></i>
@@ -3296,7 +4027,7 @@
                             </div>
                             <div class="service-feature included">
                                 <i class="fas fa-check"></i>
-                                <span>Blog és Hírlevél</span>
+                                <span>Időpontfoglalás</span>
                             </div>
                             <div class="service-feature included">
                                 <i class="fas fa-check"></i>
@@ -3304,7 +4035,15 @@
                             </div>
                             <div class="service-feature included">
                                 <i class="fas fa-check"></i>
-                                <span>Időpontfoglalás</span>
+                                <span>Hírlevél rendszer</span>
+                            </div>
+                            <div class="service-feature included">
+                                <i class="fas fa-check"></i>
+                                <span>Egyedi funkciók igény szerint</span>
+                            </div>
+                            <div class="service-feature included">
+                                <i class="fas fa-check"></i>
+                                <span>~4–6 hét átfutás</span>
                             </div>
                         </div>
                         <a href="#contact" class="service-card-cta">
@@ -3452,174 +4191,6 @@
             </div>
         </section>
 
-        <!-- References Section -->
-        <section id="references" class="references">
-            <div class="container">
-                <div class="references-header">
-                    <span class="section-tag reveal">
-                        <i class="fas fa-folder-open"></i>
-                        Referenciák
-                    </span>
-                    <h2 class="references-title reveal reveal-delay-1">Korábbi Munkáim</h2>
-                </div>
-
-                <!-- Filter Buttons -->
-                <div class="references-filters reveal reveal-delay-2">
-                    <button class="filter-btn active" data-filter="all">Összes</button>
-                    <button class="filter-btn" data-filter="alapitvany">Alapítvány</button>
-                    <button class="filter-btn" data-filter="uzleti">Üzleti</button>
-                    <button class="filter-btn" data-filter="portfolio">Portfólió</button>
-                </div>
-
-                <div class="references-grid">
-                    <!-- OnEvent.hu - Üzleti -->
-                    <div class="reference-card reveal" data-category="uzleti">
-                        <div class="reference-card-image">
-                            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=375&fit=crop&q=80"
-                                alt="OnEvent.hu">
-                            <span class="reference-card-category">Üzleti</span>
-                        </div>
-                        <div class="reference-card-content">
-                            <h3 class="reference-card-title">OnEvent.hu</h3>
-                            <p class="reference-card-desc">Rendezvényszervező platform eseménykezeléssel és foglalási
-                                rendszerrel.</p>
-                            <div class="reference-card-tags">
-                                <span class="reference-tag">WordPress</span>
-                                <span class="reference-tag">Foglalás</span>
-                                <span class="reference-tag">Esemény</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Fogdakezemalapitvany.hu - Alapítvány -->
-                    <div class="reference-card reveal reveal-delay-1" data-category="alapitvany">
-                        <div class="reference-card-image">
-                            <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=600&h=375&fit=crop&q=80"
-                                alt="Fogdakezemalapitvany.hu">
-                            <span class="reference-card-category">Alapítvány</span>
-                        </div>
-                        <div class="reference-card-content">
-                            <h3 class="reference-card-title">Fogdakezemalapitvany.hu</h3>
-                            <p class="reference-card-desc">Jótékonysági alapítvány bemutatkozó oldala adományozási
-                                lehetőséggel.</p>
-                            <div class="reference-card-tags">
-                                <span class="reference-tag">WordPress</span>
-                                <span class="reference-tag">Nonprofit</span>
-                                <span class="reference-tag">Adomány</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Borsohazpecs.hu - Üzleti -->
-                    <div class="reference-card reveal reveal-delay-2" data-category="uzleti">
-                        <div class="reference-card-image">
-                            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600&h=375&fit=crop&q=80"
-                                alt="Borsohazpecs.hu">
-                            <span class="reference-card-category">Üzleti</span>
-                        </div>
-                        <div class="reference-card-content">
-                            <h3 class="reference-card-title">Borsohazpecs.hu</h3>
-                            <p class="reference-card-desc">Pécsi ingatlanközvetítő iroda bemutatkozó weboldala.</p>
-                            <div class="reference-card-tags">
-                                <span class="reference-tag">WordPress</span>
-                                <span class="reference-tag">Ingatlan</span>
-                                <span class="reference-tag">Bemutatkozó</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Merchantlog.hu - Üzleti -->
-                    <div class="reference-card reveal" data-category="uzleti">
-                        <div class="reference-card-image">
-                            <img src="https://images.unsplash.com/photo-1551434678-e076c223a692?w=600&h=375&fit=crop&q=80"
-                                alt="Merchantlog.hu">
-                            <span class="reference-card-category">Üzleti</span>
-                        </div>
-                        <div class="reference-card-content">
-                            <h3 class="reference-card-title">Merchantlog.hu</h3>
-                            <p class="reference-card-desc">Logisztikai szolgáltató cég modern bemutatkozó oldala.</p>
-                            <div class="reference-card-tags">
-                                <span class="reference-tag">WordPress</span>
-                                <span class="reference-tag">Logisztika</span>
-                                <span class="reference-tag">B2B</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- School-box.eu - Portfólió -->
-                    <div class="reference-card reveal reveal-delay-1" data-category="portfolio">
-                        <div class="reference-card-image">
-                            <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&h=375&fit=crop&q=80"
-                                alt="School-box.eu">
-                            <span class="reference-card-category">Portfólió</span>
-                        </div>
-                        <div class="reference-card-content">
-                            <h3 class="reference-card-title">School-box.eu</h3>
-                            <p class="reference-card-desc">Oktatási platform diákok és tanárok számára.</p>
-                            <div class="reference-card-tags">
-                                <span class="reference-tag">WordPress</span>
-                                <span class="reference-tag">Oktatás</span>
-                                <span class="reference-tag">Platform</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Minico.hu - Üzleti -->
-                    <div class="reference-card reveal reveal-delay-2" data-category="uzleti">
-                        <div class="reference-card-image">
-                            <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&h=375&fit=crop&q=80"
-                                alt="Minico.hu">
-                            <span class="reference-card-category">Üzleti</span>
-                        </div>
-                        <div class="reference-card-content">
-                            <h3 class="reference-card-title">Minico.hu</h3>
-                            <p class="reference-card-desc">Kreatív ügynökség portfólió oldala projektbemutatóval.</p>
-                            <div class="reference-card-tags">
-                                <span class="reference-tag">WordPress</span>
-                                <span class="reference-tag">Ügynökség</span>
-                                <span class="reference-tag">Kreatív</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Erdelyialexandra.hu - Portfólió -->
-                    <div class="reference-card reveal" data-category="portfolio">
-                        <div class="reference-card-image">
-                            <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=375&fit=crop&q=80"
-                                alt="Erdelyialexandra.hu">
-                            <span class="reference-card-category">Portfólió</span>
-                        </div>
-                        <div class="reference-card-content">
-                            <h3 class="reference-card-title">Erdelyialexandra.hu</h3>
-                            <p class="reference-card-desc">Személyes portfólió oldal szakmai bemutatkozással.</p>
-                            <div class="reference-card-tags">
-                                <span class="reference-tag">WordPress</span>
-                                <span class="reference-tag">Személyes</span>
-                                <span class="reference-tag">CV</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Pecsialapítvány.hu - Alapítvány -->
-                    <div class="reference-card reveal reveal-delay-1" data-category="alapitvany">
-                        <div class="reference-card-image">
-                            <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?w=600&h=375&fit=crop&q=80"
-                                alt="Pecsialapítvány.hu">
-                            <span class="reference-card-category">Alapítvány</span>
-                        </div>
-                        <div class="reference-card-content">
-                            <h3 class="reference-card-title">Pecsialapítvány.hu</h3>
-                            <p class="reference-card-desc">Helyi közösségi alapítvány információs weboldala.</p>
-                            <div class="reference-card-tags">
-                                <span class="reference-tag">WordPress</span>
-                                <span class="reference-tag">Nonprofit</span>
-                                <span class="reference-tag">Közösség</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- Testimonials Section -->
         <section id="testimonials" class="testimonials">
@@ -3984,31 +4555,6 @@
             });
         });
 
-        // ========================================
-        // Hero Background Slideshow with Zoom
-        // ========================================
-        const heroSlides = document.querySelectorAll('.hero-slide');
-        let currentSlide = 0;
-        const slideInterval = 6000; // 6 seconds per slide
-
-        function nextSlide() {
-            // Remove active and reset animation
-            heroSlides[currentSlide].classList.remove('active');
-            heroSlides[currentSlide].querySelector('img').style.animation = 'none';
-
-            // Move to next slide
-            currentSlide = (currentSlide + 1) % heroSlides.length;
-
-            // Activate new slide with fresh animation
-            heroSlides[currentSlide].classList.add('active');
-            const img = heroSlides[currentSlide].querySelector('img');
-            img.style.animation = 'none';
-            img.offsetHeight; // Trigger reflow
-            img.style.animation = 'heroZoom 8s ease-out forwards';
-        }
-
-        // Start slideshow
-        setInterval(nextSlide, slideInterval);
 
         // ========================================
         // Cursor Glow Effect
@@ -4044,27 +4590,76 @@
         // Portfolio Filter
         // ========================================
         const filterBtns = document.querySelectorAll('.filter-btn');
-        const referenceCards = document.querySelectorAll('.reference-card');
+        const chromaCards = document.querySelectorAll('.chroma-card');
 
         filterBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Update active button
                 filterBtns.forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
-
                 const filter = btn.dataset.filter;
-
-                // Filter cards with animation
-                referenceCards.forEach(card => {
+                chromaCards.forEach(card => {
                     if (filter === 'all' || card.dataset.category === filter) {
                         card.classList.remove('hidden');
-                        card.style.animation = 'fadeInUp 0.5s ease forwards';
                     } else {
                         card.classList.add('hidden');
                     }
                 });
             });
         });
+
+        // ========================================
+        // Chroma Grid — cursor spotlight (GSAP-free, RAF lerp)
+        // ========================================
+        (function () {
+            const grid = document.getElementById('chroma-grid');
+            const fade = document.getElementById('chroma-fade');
+            if (!grid || !fade) return;
+
+            let tX = 0, tY = 0, cX = 0, cY = 0, rafId = null;
+
+            const lerp = (a, b, t) => a + (b - a) * t;
+
+            function tick() {
+                cX = lerp(cX, tX, 0.12);
+                cY = lerp(cY, tY, 0.12);
+                grid.style.setProperty('--x', cX + 'px');
+                grid.style.setProperty('--y', cY + 'px');
+                if (Math.abs(cX - tX) > 0.3 || Math.abs(cY - tY) > 0.3) {
+                    rafId = requestAnimationFrame(tick);
+                } else {
+                    rafId = null;
+                }
+            }
+
+            grid.addEventListener('pointermove', e => {
+                const r = grid.getBoundingClientRect();
+                tX = e.clientX - r.left;
+                tY = e.clientY - r.top;
+                fade.style.opacity = '0';
+                if (!rafId) rafId = requestAnimationFrame(tick);
+            });
+
+            grid.addEventListener('pointerleave', () => {
+                fade.style.transition = 'opacity 0.6s ease';
+                fade.style.opacity = '1';
+            });
+
+            // Per-card spotlight
+            chromaCards.forEach(card => {
+                card.addEventListener('mousemove', e => {
+                    const r = card.getBoundingClientRect();
+                    card.style.setProperty('--mouse-x', (e.clientX - r.left) + 'px');
+                    card.style.setProperty('--mouse-y', (e.clientY - r.top) + 'px');
+                });
+            });
+
+            // Init center
+            const r = grid.getBoundingClientRect();
+            cX = tX = r.width / 2;
+            cY = tY = r.height / 2;
+            grid.style.setProperty('--x', cX + 'px');
+            grid.style.setProperty('--y', cY + 'px');
+        })();
 
         // ========================================
         // FAQ Accordion
@@ -4106,6 +4701,58 @@
         revealElements.forEach(el => revealObserver.observe(el));
 
         // ========================================
+        // Process Timeline — spine fill on scroll
+        // ========================================
+        (function () {
+            const spine = document.getElementById('process-spine');
+            const timeline = document.getElementById('process-timeline');
+            if (!spine || !timeline) return;
+
+            const spineObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        spine.classList.add('filled');
+                        spineObserver.unobserve(timeline);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            spineObserver.observe(timeline);
+        })();
+
+        // ========================================
+        // Stat Counter Animation
+        // ========================================
+        const statNumbers = document.querySelectorAll('.stat-number[data-count]');
+
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+                    entry.target.classList.add('counted');
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.count);
+                    const suffix = el.dataset.suffix || '';
+                    const duration = 1200;
+                    const step = target / (duration / 16);
+                    let current = 0;
+
+                    const spanContent = el.querySelector('span') ? el.querySelector('span').outerHTML : '';
+
+                    const timer = setInterval(() => {
+                        current += step;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(timer);
+                        }
+                        el.innerHTML = Math.floor(current) + spanContent;
+                    }, 16);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statNumbers.forEach(el => counterObserver.observe(el));
+
+        // ========================================
         // Smooth Scroll for Anchor Links
         // ========================================
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -4125,17 +4772,20 @@
         });
 
         // ========================================
-        // Navbar Background on Scroll
+        // Navbar Transparent → Frosted Glass on Scroll
         // ========================================
         const navbar = document.getElementById('navbar');
 
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                navbar.style.background = 'rgba(10, 10, 11, 0.95)';
+        function updateNavbar() {
+            if (window.scrollY > 60) {
+                navbar.classList.add('scrolled');
             } else {
-                navbar.style.background = 'rgba(10, 10, 11, 0.8)';
+                navbar.classList.remove('scrolled');
             }
-        });
+        }
+
+        window.addEventListener('scroll', updateNavbar, { passive: true });
+        updateNavbar();
 
         // ========================================
         // Contact Form Handling
